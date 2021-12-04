@@ -1,0 +1,10 @@
+Server:
+  RunMode: debug
+  HttpPort: 8000
+  ReadTimeout: 60
+  WriteTimeout: 60
+# Database: # your db config
+#   DBType: mysql
+#   Username: # your username
+#   Password: # your password
+#   Host: # your host
