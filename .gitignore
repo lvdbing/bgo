@@ -17,3 +17,6 @@
 # password files
 password.yaml
 pwd.yaml
+
+# swagger docs
+/docs/

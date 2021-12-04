@@ -1,15 +1,24 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/lvdbing/bgo/internal/router"
 )
 
+// @title           bgo后台管理系统
+// @version         1.0
+// @description     使用Go和Angular创建的后台管理系统
+// @termsOfService  http://beanlv.top/
+
+// @contact.name   Bean
+// @contact.url    http://beanlv.top/
+// @contact.email  lvduanbing@126.com
+
+// @host      localhost:8080
+// @BasePath  /api/v1
+
+// @securityDefinitions.basic  BasicAuth
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r := router.NewRouter()
+
+	r.Run(":8080")
 }
