@@ -20,3 +20,6 @@ pwd.yaml
 
 # swagger docs
 /docs/
+
+# log
+*.log

@@ -43,6 +43,8 @@ type Permit struct {
 	Description string `json:"description"` // 描述
 	Status      uint8  `json:"status"`      // 状态
 	Type        uint8  `json:"type"`        // 类型
+	Router      string `json:"router"`      // 路由
+	Icon        string `json:"icon"`        // 前端页面显示的icon
 	ParentID    uint32 `json:"parent_id"`   // 父级ID
 	Sort        uint32 `json:"sort"`        // 排序
 }

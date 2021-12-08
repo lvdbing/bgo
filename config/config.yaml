@@ -3,6 +3,13 @@ Server:
   HttpPort: 8000
   ReadTimeout: 60
   WriteTimeout: 60
+App:
+  DefaultPagesize: 10
+  MaxPagesize: 100
+  LogPath: log
+  LogFilename: app
+  LogFileExt: .log
+
 # Database: # your db config
 #   DBType: mysql
 #   Username: # your username
