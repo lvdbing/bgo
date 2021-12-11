@@ -1,7 +1,12 @@
 package v1
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
+	"github.com/lvdbing/bgo/internal/model"
+	"github.com/lvdbing/bgo/internal/pkg/errcode"
+	"github.com/lvdbing/bgo/internal/service"
 )
 
 var AccountApi = NewAccountApi()
@@ -24,11 +29,21 @@ func NewAccountApi() *accountApi {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/register [post]
 func (api *accountApi) Register(c *gin.Context) {
+	var req model.RegisterReq
+	_ = c.ShouldBindJSON(&req)
+	fmt.Println(req)
+	resp := model.NewResponse(c)
 
+	svc := service.NewService(c.Request.Context())
+	user, err := svc.Register(&req)
+	if err != nil {
+		resp.SendError(errcode.ServerError)
+		return
+	}
+	resp.SendData(*user)
 }
 
 // Login godoc
@@ -42,7 +57,6 @@ func (api *accountApi) Register(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/login [post]
 func (api *accountApi) Login(c *gin.Context) {
@@ -60,7 +74,6 @@ func (api *accountApi) Login(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/account/get [get]
 func (api *accountApi) Get(c *gin.Context) {
@@ -78,7 +91,6 @@ func (api *accountApi) Get(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/account/list [get]
 func (api *accountApi) List(c *gin.Context) {
@@ -96,7 +108,6 @@ func (api *accountApi) List(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/account/create [post]
 func (api *accountApi) Create(c *gin.Context) {
@@ -114,7 +125,6 @@ func (api *accountApi) Create(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/account/update [put]
 func (api *accountApi) Update(c *gin.Context) {
@@ -132,7 +142,6 @@ func (api *accountApi) Update(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/account/delete/:id [delete]
 func (api *accountApi) Delete(c *gin.Context) {

@@ -22,7 +22,6 @@ func NewPermitApi() *permitApi {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/permit/get [get]
 func (api *permitApi) Get(c *gin.Context) {
@@ -40,7 +39,6 @@ func (api *permitApi) Get(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/permit/list [get]
 func (api *permitApi) List(c *gin.Context) {
@@ -58,7 +56,6 @@ func (api *permitApi) List(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/permit/create [post]
 func (api *permitApi) Create(c *gin.Context) {
@@ -76,7 +73,6 @@ func (api *permitApi) Create(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/permit/update [put]
 func (api *permitApi) Update(c *gin.Context) {
@@ -94,7 +90,6 @@ func (api *permitApi) Update(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/permit/delete/:id [delete]
 func (api *permitApi) Delete(c *gin.Context) {

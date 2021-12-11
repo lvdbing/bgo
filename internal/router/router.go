@@ -5,6 +5,7 @@ import (
 	_ "github.com/lvdbing/bgo/docs"
 
 	v1 "github.com/lvdbing/bgo/internal/api/v1"
+	"github.com/lvdbing/bgo/internal/middleware"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
@@ -16,11 +17,13 @@ func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 开放的api，不需要鉴权。
 	pubRouter := r.Group("/api/v1")
+	pubRouter.Use(middleware.Cors())
 	pubRouter.POST("/register", v1.AccountApi.Register)
 	pubRouter.POST("/login", v1.AccountApi.Login)
 

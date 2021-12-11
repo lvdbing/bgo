@@ -9,21 +9,21 @@ import (
 )
 
 type Pager struct {
-	Page     int `json:"page" form:"page"`
-	Pagesize int `json:"pagesize" form:"pagesize"`
+	Page     int `json:"page" form:"page"`         // 页码
+	Pagesize int `json:"pagesize" form:"pagesize"` // 每页数量
 }
 
 type RespList struct {
-	Data     interface{} `json:"data"`
-	Page     int         `json:"page"`
-	Pagesize int         `json:"pagesize"`
-	Total    int         `json:"total"`
+	Data     interface{} `json:"data"`     // 响应数据
+	Page     int         `json:"page"`     // 页码
+	Pagesize int         `json:"pagesize"` // 每页数量
+	Total    int         `json:"total"`    // 总数量
 }
 
 type RespError struct {
-	Code    int      `json:"code"`
-	Msg     string   `json:"msg"`
-	Details []string `json:"details"`
+	Code    int      `json:"code"`    // 错误码
+	Msg     string   `json:"msg"`     // 错误消息
+	Details []string `json:"details"` // 错误详情
 }
 
 type Response struct {

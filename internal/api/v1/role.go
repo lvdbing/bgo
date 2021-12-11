@@ -24,7 +24,6 @@ func NewRoleApi() *roleApi {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/role/get [get]
 func (api *roleApi) Get(c *gin.Context) {
@@ -42,7 +41,6 @@ func (api *roleApi) Get(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/role/list [get]
 func (api *roleApi) List(c *gin.Context) {
@@ -60,7 +58,6 @@ func (api *roleApi) List(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/role/create [post]
 func (api *roleApi) Create(c *gin.Context) {
@@ -78,7 +75,6 @@ func (api *roleApi) Create(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/role/update [put]
 func (api *roleApi) Update(c *gin.Context) {
@@ -96,7 +92,6 @@ func (api *roleApi) Update(c *gin.Context) {
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
-// @Failure     404 {object} model.RespError "Not Found"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/role/delete/:id [delete]
 func (api *roleApi) Delete(c *gin.Context) {

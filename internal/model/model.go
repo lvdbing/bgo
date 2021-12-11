@@ -6,6 +6,7 @@ import (
 	"github.com/lvdbing/bgo/global"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 type BaseModel struct {
@@ -27,7 +28,11 @@ func NewDBEngine(dbSetting *global.DatabaseSettings, dbName string) (*gorm.DB, e
 		dbSetting.Charset,
 		dbSetting.ParseTime)
 
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true, // 默认使用单数表名。
+		},
+	})
 	if err != nil {
 		return nil, err
 	}

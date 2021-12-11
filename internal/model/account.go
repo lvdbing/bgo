@@ -1,7 +1,7 @@
 package model
 
 type User struct {
-	*BaseModel
+	BaseModel
 	Username string `json:"username"` // 用户名
 	Password string `json:"password"` // 密码
 	Nickname string `json:"nickname"` // 昵称
@@ -10,19 +10,8 @@ type User struct {
 	Status   uint8  `json:"status"`   // 状态
 }
 
-type RegisterReq struct {
-	Username string `json:"username"` // 用户名
-	Password string `json:"password"` // 密码
-	Phone    string `json:"phone"`    // 电话
-}
-
-type LoginReq struct {
-	Username string `json:"username"` // 用户名
-	Password string `json:"password"` // 密码
-}
-
 type Role struct {
-	*BaseModel
+	BaseModel
 	Name        string `json:"name"`        // 名称
 	Description string `json:"description"` // 描述
 	Status      uint8  `json:"status"`      // 状态
@@ -31,14 +20,14 @@ type Role struct {
 }
 
 type UserRole struct {
-	*BaseModel
+	BaseModel
 	UserID uint32 `json:"user_id"` // 用户ID
 	RoleID uint32 `json:"role_id"` // 角色ID
 	Status uint8  `json:"status"`  // 状态
 }
 
 type Permit struct {
-	*BaseModel
+	BaseModel
 	Name        string `json:"name"`        // 名称
 	Description string `json:"description"` // 描述
 	Status      uint8  `json:"status"`      // 状态
@@ -50,8 +39,28 @@ type Permit struct {
 }
 
 type RolePermit struct {
-	*BaseModel
+	BaseModel
 	RoleID   uint32 `json:"role_id"`   // 角色ID
 	PermitID uint32 `json:"permit_id"` // 权限ID
 	Status   uint8  `json:"status"`    // 状态
+}
+
+type RegisterReq struct {
+	Username string `json:"username" validate:"required"` // 用户名
+	Password string `json:"password" validate:"required"` // 密码
+	Phone    string `json:"phone"`                        // 电话
+}
+
+type LoginReq struct {
+	Username string `json:"username" validate:"required"` // 用户名
+	Password string `json:"password" validate:"required"` // 密码
+}
+
+type UserReq struct {
+}
+
+type RoleReq struct {
+}
+
+type PermitReq struct {
 }

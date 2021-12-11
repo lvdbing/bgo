@@ -20,9 +20,8 @@ import (
 
 // @contact.name   Bean
 // @contact.url    http://beanlv.top/
-// @contact.email  lvduanbing@126.com
 
-// @host      localhost:8080
+// @host      localhost:8000
 // @BasePath  /api/v1
 
 // @securityDefinitions.basic  BasicAuth
