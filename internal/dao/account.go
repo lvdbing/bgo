@@ -4,6 +4,10 @@ import (
 	"github.com/lvdbing/bgo/internal/model"
 )
 
+func (dao *Dao) GetUserByID(id uint32) (*model.User, error) {
+	return nil, nil
+}
+
 func (dao *Dao) GetUsers(req *model.UserReq) (users []model.User, err error) {
 	return
 }

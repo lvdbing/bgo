@@ -16,11 +16,23 @@ type ServerSettings struct {
 }
 
 type AppSettings struct {
-	DefaultPagesize int
-	MaxPagesize     int
-	LogPath         string
-	LogFilename     string
-	LogFileExt      string
+	DefaultPagesize    int
+	MaxPagesize        int
+	LogPath            string
+	LogFilename        string
+	LogFileExt         string
+	UploadPath         string
+	UploadUrl          string
+	UploadMaxSizeImg   int
+	UploadMaxSizeExcel int
+	UploadMaxSizeWord  int
+	UploadMaxSizePPT   int
+	UploadMaxSizeTxt   int
+	UploadExtsImg      []string
+	UploadExtsExcel    []string
+	UploadExtsWord     []string
+	UploadExtsPPT      []string
+	UploadExtsTxt      []string
 }
 
 type DatabaseSettings struct {

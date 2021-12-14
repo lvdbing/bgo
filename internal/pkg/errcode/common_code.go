@@ -11,4 +11,5 @@ var (
 	UnauthorizedTokenGenerate = NewError(10000006, "鉴权失败，Token生成失败")
 	TooManyRequests           = NewError(10000007, "请求过多")
 	Forbidden                 = NewError(10000008, "没有权限")
+	CustomerError             = NewError(20000000, "自定义错误")
 )

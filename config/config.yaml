@@ -9,6 +9,28 @@ App:
   LogPath: log
   LogFilename: app
   LogFileExt: .log
+  UploadPath: static/upload
+  UploadUrl: http://127.0.0.1:8000/static
+  UploadMaxSizeImg: 5 # MB
+  UploadMaxSizeExcel: 20
+  UploadMaxSizeWord: 20
+  UploadMaxSizePPT: 20
+  UploadMaxSizeTxt: 20
+  UploadExtsImg:
+    - .jpg
+    - .jpeg
+    - .png
+  UploadExtsExcel:
+    - .xls
+    - .xlsx
+  UploadExtsWord:
+    - .doc
+    - .docx
+  UploadExtsPPT:
+    - .ppt
+    - .pptx
+  UploadExtsTxt:
+    - .txt
 
 # Database: # your db config
 #   DBType: mysql

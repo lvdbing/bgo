@@ -46,14 +46,14 @@ type RolePermit struct {
 }
 
 type RegisterReq struct {
-	Username string `json:"username" validate:"required"` // 用户名
-	Password string `json:"password" validate:"required"` // 密码
-	Phone    string `json:"phone"`                        // 电话
+	Username string `form:"username" binding:"required"` // 用户名
+	Password string `form:"password" binding:"required"` // 密码
+	Phone    string `form:"phone"`                       // 电话
 }
 
 type LoginReq struct {
-	Username string `json:"username" validate:"required"` // 用户名
-	Password string `json:"password" validate:"required"` // 密码
+	Username string `form:"username" binding:"required"` // 用户名
+	Password string `form:"password" binding:"required"` // 密码
 }
 
 type UserReq struct {

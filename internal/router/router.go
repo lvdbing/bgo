@@ -18,6 +18,7 @@ func NewRouter() *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
+	r.Use(middleware.Translations())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -26,6 +27,7 @@ func NewRouter() *gin.Engine {
 	pubRouter.Use(middleware.Cors())
 	pubRouter.POST("/register", v1.AccountApi.Register)
 	pubRouter.POST("/login", v1.AccountApi.Login)
+	pubRouter.POST("/pubupload", v1.UploadApi.UploadFile)
 
 	// 私密的api，需要鉴权。
 	priRouter := r.Group("/api/v1")
@@ -36,6 +38,8 @@ func NewRouter() *gin.Engine {
 }
 
 func groupPrimaryRouter(priRouter *gin.RouterGroup) {
+	priRouter.POST("/upload", v1.UploadApi.UploadFile)
+
 	accRouter := priRouter.Group("/account")
 	accRouter.GET("/get/:id", v1.AccountApi.Get)          // 查询用户信息
 	accRouter.GET("/list", v1.AccountApi.List)            // 获取用户列表
