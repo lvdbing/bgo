@@ -31,6 +31,15 @@ App:
     - .pptx
   UploadExtsTxt:
     - .txt
+  ContextTimeout: 60
+JWT:
+  Secret: bgobgobgo
+  Issuer: bgo
+  Expire: 30
+RateLimiter:
+  FillInterval: 1
+  Capacity: 100
+  Quantum: 100
 
 # Database: # your db config
 #   DBType: mysql

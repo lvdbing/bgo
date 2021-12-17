@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/lvdbing/bgo/global"
+	"github.com/lvdbing/bgo/internal/helper/setting"
+	"github.com/lvdbing/bgo/internal/helper/tracer"
 	"github.com/lvdbing/bgo/internal/model"
-	"github.com/lvdbing/bgo/internal/pkg/logger"
-	"github.com/lvdbing/bgo/internal/pkg/setting"
 	"github.com/lvdbing/bgo/internal/router"
 	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
@@ -50,6 +50,11 @@ func init() {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
 
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("init.setupTracer err: %v", err)
+	}
+
 	err = setupDBEngine()
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
@@ -77,18 +82,36 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	global.AppSetting.ContextTimeout *= time.Second
 
 	err = s.ReadSection("Database", &global.DatabaseSetting)
 	if err != nil {
 		return err
 	}
 
+	err = s.ReadSection("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+	global.JWTSetting.Expire *= time.Second
+
+	err = s.ReadSection("Email", &global.EmailSetting)
+	if err != nil {
+		return err
+	}
+
+	err = s.ReadSection("RateLimiter", &global.LimiterSetting)
+	if err != nil {
+		return err
+	}
+	global.LimiterSetting.FillInterval *= time.Second
+
 	return nil
 }
 
 func setupLogger() error {
 	filename := global.AppSetting.LogPath + "/" + global.AppSetting.LogFilename + global.AppSetting.LogFileExt
-	global.Logger = logger.NewLogger(&lumberjack.Logger{
+	global.Logger = global.NewLogger(&lumberjack.Logger{
 		Filename:   filename,
 		MaxSize:    500, // megabytes
 		MaxBackups: 3,
@@ -105,4 +128,16 @@ func setupDBEngine() error {
 	global.UserDB, err = model.NewDBEngine(global.DatabaseSetting, "user")
 
 	return err
+}
+
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer(
+		"bgo-admin",
+		"127.0.0.1:6831",
+	)
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
+	return nil
 }

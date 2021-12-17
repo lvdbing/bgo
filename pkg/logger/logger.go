@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -43,9 +42,9 @@ func (l Level) String() string {
 
 type Logger struct {
 	newLogger *log.Logger
-	ctx       context.Context
-	fields    Fields
-	callers   []string
+	// ctx       context.Context
+	fields  Fields
+	callers []string
 }
 
 func NewLogger(w io.Writer, prefix string, flag int) *Logger {
@@ -58,11 +57,11 @@ func (l *Logger) clone() *Logger {
 	return &nl
 }
 
-func (l *Logger) WithContext(ctx context.Context) *Logger {
-	nl := l.clone()
-	nl.ctx = ctx
-	return nl
-}
+// func (l *Logger) WithContext(ctx context.Context) *Logger {
+// 	nl := l.clone()
+// 	nl.ctx = ctx
+// 	return nl
+// }
 
 func (l *Logger) WithFields(f Fields) *Logger {
 	nl := l.clone()

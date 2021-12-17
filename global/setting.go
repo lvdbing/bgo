@@ -6,6 +6,9 @@ var (
 	ServerSetting   *ServerSettings
 	AppSetting      *AppSettings
 	DatabaseSetting *DatabaseSettings
+	JWTSetting      *JWTSettings
+	EmailSetting    *EmailSettings
+	LimiterSetting  *LimiterSettings
 )
 
 type ServerSettings struct {
@@ -33,6 +36,7 @@ type AppSettings struct {
 	UploadExtsWord     []string
 	UploadExtsPPT      []string
 	UploadExtsTxt      []string
+	ContextTimeout     time.Duration
 }
 
 type DatabaseSettings struct {
@@ -44,4 +48,26 @@ type DatabaseSettings struct {
 	ParseTime    bool
 	MaxIdleConns int
 	MaxOpenConns int
+}
+
+type JWTSettings struct {
+	Secret string
+	Issuer string
+	Expire time.Duration
+}
+
+type EmailSettings struct {
+	From     string
+	Host     string
+	Port     int
+	Username string
+	Password string
+	IsSSL    bool
+	To       []string
+}
+
+type LimiterSettings struct {
+	FillInterval time.Duration
+	Capacity     int64
+	Quantum      int64
 }

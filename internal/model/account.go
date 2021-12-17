@@ -45,6 +45,16 @@ type RolePermit struct {
 	Status   uint8  `json:"status"`    // 状态
 }
 
+type JwtToken struct {
+	ID    uint32 `json:"id"`    // 用户ID
+	Token string `json:"token"` // 鉴权令牌
+}
+
+type UserToken struct {
+	User
+	Token string `json:"token"`
+}
+
 type RegisterReq struct {
 	Username string `form:"username" binding:"required"` // 用户名
 	Password string `form:"password" binding:"required"` // 密码

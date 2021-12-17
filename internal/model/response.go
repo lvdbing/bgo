@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lvdbing/bgo/global"
-	"github.com/lvdbing/bgo/internal/pkg/errcode"
+	"github.com/lvdbing/bgo/pkg/errcode"
 )
 
 type Pager struct {
@@ -75,10 +75,21 @@ func (r *Response) SendList(data interface{}, total int) {
 	r.Ctx.JSON(http.StatusOK, resp)
 }
 
-func (r *Response) SendError(err *errcode.Error) {
+func (r *Response) SendError(err error, details ...string) {
 	var resp RespError
-	resp.Code = err.Code()
-	resp.Msg = err.Msg()
-	resp.Details = err.Details()
-	r.Ctx.JSON(err.StatusCode(), resp)
+	respErr, ok := err.(*errcode.Error)
+	if ok {
+		resp.Code = respErr.Code()
+		resp.Msg = respErr.Msg()
+		if len(details) > 0 {
+			respErr = respErr.WithDetails(details...)
+		}
+		resp.Details = respErr.Details()
+		r.Ctx.JSON(respErr.StatusCode(), resp)
+	} else {
+		resp.Msg = err.Error()
+		resp.Code = errcode.CustomerError.Code()
+		resp.Details = details
+		r.Ctx.JSON(http.StatusInternalServerError, resp)
+	}
 }

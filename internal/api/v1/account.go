@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lvdbing/bgo/global"
 	"github.com/lvdbing/bgo/internal/model"
-	"github.com/lvdbing/bgo/internal/pkg/errcode"
 	"github.com/lvdbing/bgo/internal/service"
+	"github.com/lvdbing/bgo/pkg/errcode"
 )
 
 var AccountApi = NewAccountApi()
@@ -35,18 +35,16 @@ func (api *accountApi) Register(c *gin.Context) {
 	var req model.RegisterReq
 	valid, errs := model.ValidAndBind(c, &req)
 	if !valid {
-		global.Logger.Errorf("register.ValidAndBind err: %v", errs)
+		global.Logger.Errorf(c, "register.ValidAndBind err: %v", errs)
 		errResp := errcode.InvalidParams.WithDetails(errs.Errors()...)
 		resp.SendError(errResp)
 		return
 	}
-	// _ = c.ShouldBindJSON(&req)
-	// fmt.Println(req)
 
 	svc := service.NewService(c.Request.Context())
 	user, err := svc.Register(&req)
 	if err != nil {
-		resp.SendError(errcode.CustomerError.WithDetails(err.Error()))
+		resp.SendError(err)
 		return
 	}
 	resp.SendData(*user)
@@ -59,14 +57,30 @@ func (api *accountApi) Register(c *gin.Context) {
 // @Accept      json
 // @Produce     json
 // @Param       login body model.LoginReq true "请求登录信息"
-// @Success     200 {object} model.User "用户信息"
+// @Success     200 {object} model.UserToken "用户及token信息"
 // @Failure     400 {object} model.RespError "Bad Request"
 // @Failure     401 {object} model.RespError "Unauthorized"
 // @Failure     403 {object} model.RespError "Forbidden"
 // @Failure     500 {object} model.RespError "Internal Server Error"
 // @Router      /api/v1/login [post]
 func (api *accountApi) Login(c *gin.Context) {
+	resp := model.NewResponse(c)
+	var req model.LoginReq
+	valid, errs := model.ValidAndBind(c, &req)
+	if !valid {
+		global.Logger.Errorf(c, "login.ValidAndBind err: %v", errs)
+		errResp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		resp.SendError(errResp)
+		return
+	}
 
+	svc := service.NewService(c.Request.Context())
+	userToken, err := svc.Login(&req)
+	if err != nil {
+		resp.SendError(err)
+		return
+	}
+	resp.SendData(*userToken)
 }
 
 // Get godoc

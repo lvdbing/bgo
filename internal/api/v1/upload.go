@@ -1,13 +1,14 @@
 package v1
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lvdbing/bgo/global"
 	"github.com/lvdbing/bgo/internal/model"
-	"github.com/lvdbing/bgo/internal/pkg/errcode"
 	"github.com/lvdbing/bgo/internal/service"
+	"github.com/lvdbing/bgo/pkg/errcode"
 )
 
 var UploadApi = NewUploadApi()
@@ -49,9 +50,9 @@ func (api *uploadApi) UploadFile(c *gin.Context) {
 	svc := service.NewService(c.Request.Context())
 	fileInfo, err := svc.UploadFile(model.FileType(fileType), file, fileHeader)
 	if err != nil {
-		global.Logger.Errorf("upload file err: %v", err)
-		errResp := errcode.InvalidParams
-		resp.SendError(errResp)
+		err = fmt.Errorf("upload file err: %v", err)
+		global.Logger.Error(c, err)
+		resp.SendError(err)
 		return
 	}
 	resp.SendData(fileInfo.AccessUrl)

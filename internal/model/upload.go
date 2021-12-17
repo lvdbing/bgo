@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/lvdbing/bgo/global"
-	"github.com/lvdbing/bgo/internal/pkg/upload"
-	"github.com/lvdbing/bgo/internal/pkg/utils"
+	"github.com/lvdbing/bgo/pkg/upload"
+	"github.com/lvdbing/bgo/pkg/utils"
 )
 
 type FileType int
