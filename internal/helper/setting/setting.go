@@ -1,6 +1,9 @@
 package setting
 
-import "github.com/spf13/viper"
+import (
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
+)
 
 type Setting struct {
 	vp *viper.Viper
@@ -30,7 +33,10 @@ func NewSetting(configFiles ...ConfigFile) (*Setting, error) {
 			return nil, err
 		}
 	}
-	return &Setting{vp}, nil
+
+	s := &Setting{vp}
+	s.WatchSettingChange()
+	return s, nil
 }
 
 func DefaultSetting() (*Setting, error) {
@@ -46,6 +52,35 @@ func DefaultSetting() (*Setting, error) {
 	return &Setting{vp}, nil
 }
 
+var sections = make(map[string]interface{})
+
 func (s *Setting) ReadSection(k string, v interface{}) error {
-	return s.vp.UnmarshalKey(k, v)
+	err := s.vp.UnmarshalKey(k, v)
+	if err != nil {
+		return err
+	}
+
+	if _, ok := sections[k]; !ok {
+		sections[k] = v
+	}
+	return nil
+}
+
+func (s *Setting) ReloadAllSection() error {
+	for k, v := range sections {
+		err := s.ReadSection(k, v)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *Setting) WatchSettingChange() {
+	go func() {
+		s.vp.WatchConfig()
+		s.vp.OnConfigChange(func(e fsnotify.Event) {
+			_ = s.ReloadAllSection()
+		})
+	}()
 }

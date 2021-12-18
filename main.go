@@ -1,8 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/lvdbing/bgo/global"
@@ -35,8 +39,24 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	s.ListenAndServe()
+	go func() {
+		err := s.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
+			global.Logger.Logger.Fatalf("ListenAndServe err: %v", err)
+		}
+	}()
 
+	quit := make(chan os.Signal)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	global.Logger.Logger.Info("Shuting down server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := s.Shutdown(ctx); err != nil {
+		global.Logger.Logger.Fatal("Shutdown err: %v", err)
+	}
+	global.Logger.Logger.Info("Server exiting...")
 }
 
 func init() {
@@ -63,8 +83,8 @@ func init() {
 
 func setupSetting() error {
 	configFiles := []setting.ConfigFile{
-		{Name: "config", Path: "config/", Type: "yaml"},
 		{Name: "password", Path: "config/", Type: "yaml"},
+		{Name: "config", Path: "config/", Type: "yaml"},
 	}
 	s, err := setting.NewSetting(configFiles...)
 	if err != nil {
